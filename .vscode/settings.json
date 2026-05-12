@@ -1,8 +1,9 @@
 {
   "editor.formatOnSave": true,
 
-  "[json][jsonc][markdown]": {
+  "[json][jsonc][yaml][markdown][javascript][astro][github-actions-workflow]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
   "cSpell.words": ["Jang", "Kukjin", "kukjinjang"]
 }
