@@ -1,17 +1,196 @@
 ---
-
+import Layout from "../layouts/Layout.astro"
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<Layout title="Kuk Jin Jang" description="Machine Learning Researcher for Trustworthy AI.">
+  <section class="about-section">
+    <div class="profile-block">
+      <div class="profile-text">
+        <p>Kuk Jin Jang</p>
+        <p class="affiliation">
+          <a href="https://precise.seas.upenn.edu/" target="_blank" rel="noopener noreferrer">
+            PRECISE University of Pennsylvania
+          </a>
+          <span class="email">jangkj@seas.upenn.edu</span>
+        </p>
+        <p>
+          Machine learning researcher specializing in trustworthy AI, multimodal learning, and
+          uncertainty quantification for healthcare and robotics applications. Recently, I have
+          focused on building trustworthy and reliable systems based on generative AI. With a Ph.D.
+          in Electrical and Systems Engineering and over 30 publications, my work spans robust ECG
+          classification, AI for ophthalmology and oculomics, and clinical interaction analysis.
+        </p>
+        <p>
+          I am committed to advancing AI in medicine and health, actively mentoring students, and
+          contributing to the academic community and industry.
+        </p>
+      </div>
+      <div class="profile-picture">
+        <img
+          src="/profile.webp"
+          alt="Kuk Jin Jang profile picture"
+          width="100%"
+          height="auto"
+          class="rounded"
+        />
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="news-section">
+    <h2 class="title-small">news</h2>
+    <div class="news-list">
+      <div class="news-item">
+        <span class="news-date">Dec 09, 2024</span>
+        <span class="news-text">
+          Our paper, "Assessing Modality Bias in Video Question Answering Benchmarks with Multimodal
+          Large Language Models," has been accepted to AAAI 2025!
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Nov 02, 2024</span>
+        <span class="news-text">
+          Our paper, "Fundus Image-based Visual Acuity Assessment with PAC-Guarantees," has been
+          accepted to ML4H
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Oct 21, 2024</span>
+        <span class="news-text">
+          Our paper, "Credal Bayesian Deep Learning," has been accepted for publication in the
+          Transactions of Machine Learning Research
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Jul 21, 2024</span>
+        <span class="news-text">
+          Paper accepted to APJO: "Development of Oculomics Artificial Intelligence for
+          Cardiovascular Risk Factors: A Case Study in Fundus Oculomics for HbA1c Assessment and
+          Clinically Relevant Considerations for Clinicians"
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <section id="publications" class="publications-section">
+    <h2 class="title-small">selected publications</h2>
+    <div class="publications-list">
+      <article class="publication">
+        <div class="pub-title">
+          Assessing Modality Bias in Video Question Answering Benchmarks with Multimodal Large
+          Language Models
+        </div>
+        <div class="pub-authors">
+          Jean Park,&nbsp;Kuk Jin Jang,&nbsp;Basam Alasaly, and 5 more authors
+        </div>
+        <div class="pub-venue">
+          <em>arXiv preprint arXiv:2408.12763</em>, 2024
+        </div>
+        <div class="pub-links">
+          <a href="https://arxiv.org/abs/2408.12763" target="_blank" rel="noopener noreferrer">
+            arXiv
+          </a>
+        </div>
+      </article>
+
+      <article class="publication">
+        <div class="pub-title">
+          DC4L: Distribution shift recovery via data-driven control for deep learning models
+        </div>
+        <div class="pub-authors">
+          Vivian Lin,&nbsp;Kuk Jin Jang,&nbsp;Souradeep Dutta, and 3 more authors
+        </div>
+        <div class="pub-venue">
+          <em>In 6th Annual Learning for Dynamics & Control Conference</em>, 2024
+        </div>
+        <div class="pub-links"></div>
+      </article>
+
+      <article class="publication">
+        <div class="pub-title">
+          Development of Oculomics Artificial Intelligence for Cardiovascular Risk Factors: A Case
+          Study in Fundus Oculomics for HbA1c Assessment and Clinically Relevant Considerations for
+          Clinicians
+        </div>
+        <div class="pub-authors">
+          Joshua Ong,&nbsp;Kuk Jin Jang,&nbsp;Seung Ju Baek, and 8 more authors
+        </div>
+        <div class="pub-venue">
+          <em>Asia-Pacific Journal of Ophthalmology</em>, 2024
+        </div>
+        <div class="pub-links"></div>
+      </article>
+
+      <article class="publication">
+        <div class="pub-title">Credal Bayesian Deep Learning</div>
+        <div class="pub-authors">
+          Michele Caprio,&nbsp;Souradeep Dutta,&nbsp;Kuk Jin Jang, and 4 more authors
+        </div>
+        <div class="pub-venue">
+          <em>arXiv e-prints</em>, 2024
+        </div>
+        <div class="pub-links">
+          <a
+            href="https://openreview.net/pdf?id=4NHF9AC5ui"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            PDF
+          </a>
+        </div>
+      </article>
+
+      <article class="publication">
+        <div class="pub-title">Fundus Image-based Visual Acuity Assessment with PAC-Guarantees</div>
+        <div class="pub-authors">
+          Sooyong Jang,&nbsp;Kuk Jin Jang,&nbsp;Hyonyoung Choi, and 4 more authors
+        </div>
+        <div class="pub-venue">2024</div>
+        <div class="pub-links">
+          <a href="https://arxiv.org/abs/2412.06624" target="_blank" rel="noopener noreferrer">
+            arXiv
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="social-section">
+    <div class="contact-icons">
+      <a href="mailto:jangkj@seas.upenn.edu" title="email">
+        <i class="fa-solid fa-envelope"></i>
+      </a>
+      <a
+        href="https://scholar.google.com/citations?user=HFajZtgAAAAJ"
+        title="Google Scholar"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="ai ai-google-scholar"></i>
+      </a>
+      <a
+        href="https://www.researchgate.net/profile/Kuk-Jang/"
+        title="ResearchGate"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="ai ai-researchgate"></i>
+      </a>
+      <a
+        href="https://www.linkedin.com/in/kuk-jin-jang-9a971014"
+        title="LinkedIn"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
+    </div>
+    <div class="contact-note">Feel free to reach out through email.</div>
+  </section>
+</Layout>
