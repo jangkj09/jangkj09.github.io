@@ -1,8 +1,15 @@
 {
+  "$schema": "https://www.schemastore.org/prettierrc.json",
   "semi": false,
   "printWidth": 100,
 
-  "plugins": ["prettier-plugin-astro"],
+  "plugins": [
+    "prettier-plugin-astro",
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindStylesheet": "./src/styles/global.css",
+
   "overrides": [
     {
       "files": "*.astro",
