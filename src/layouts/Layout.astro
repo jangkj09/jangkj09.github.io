@@ -68,10 +68,14 @@ const pathname = Astro.url.pathname
               </li>
               <li>
                 <a
-                  href="/cv"
-                  class={`font-semibold hover:text-gray-900 dark:hover:text-gray-100 ${pathname === "/cv" || pathname === "/cv/" ? "text-gray-900 dark:text-gray-100" : "text-gray-500 dark:text-gray-400"}`}
+                  href="/cv.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
                 >
-                  CV
+                  cv <i
+                    class="fa-solid fa-arrow-up-right-from-square ml-0.5 text-[0.7em] opacity-70"
+                  ></i>
                 </a>
               </li>
             </ul>
