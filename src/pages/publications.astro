@@ -1,8 +1,10 @@
 ---
 import PublicationCard from "../components/PublicationCard.astro"
 import Layout from "../layouts/Layout.astro"
+import { getConfig, fullName } from "../lib/config"
 import { getAllPapers } from "../lib/papers"
 
+const name = fullName(getConfig())
 const papers = getAllPapers()
 const papersByYear = new Map<number, typeof papers>()
 for (const paper of papers) {
@@ -13,7 +15,7 @@ for (const paper of papers) {
 const years = [...papersByYear.keys()].sort((a, b) => b - a)
 ---
 
-<Layout title="Publications — Kuk Jin Jang" description="Publications by Kuk Jin Jang.">
+<Layout title={`Publications — ${name}`} description={`Publications by ${name}.`}>
   <section class="pb-8">
     <div class="flex flex-col gap-10">
       {

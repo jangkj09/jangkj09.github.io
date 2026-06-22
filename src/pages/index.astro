@@ -1,28 +1,14 @@
 ---
-import fs from "node:fs"
 import { getCollection, render } from "astro:content"
 import { faGoogleScholar, faLinkedin, faResearchgate } from "@fortawesome/free-brands-svg-icons"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import YAML from "yaml"
 import PublicationCard from "../components/PublicationCard.astro"
 import Layout from "../layouts/Layout.astro"
+import { getConfig, fullName } from "../lib/config"
 import { getSelectedPapers } from "../lib/papers"
 
-type Config = {
-  first_name: string
-  last_name: string
-  email: string
-
-  linkedin_username: string
-  research_gate_profile: string
-  scholar_userid: string
-
-  description: string
-  content_note: string
-}
-
-const config: Config = YAML.parse(fs.readFileSync("src/content/config.yaml", "utf-8"))
+const config = getConfig()
 
 const newsEntries = (await getCollection("news")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -44,37 +30,27 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 })
 ---
 
-<Layout title={config.first_name + " " + config.last_name} description={config.description.trim()}>
+<Layout title={fullName(config)} description={config.description.trim()}>
   <section class="pb-4">
     <div class="flex flex-col-reverse gap-6 sm:flex-row">
       <div>
         <p class="mb-4 text-base text-gray-500">
           <a
-            href="https://precise.seas.upenn.edu/"
+            href={config.affiliation.url}
             target="_blank"
             rel="noopener noreferrer"
             class="font-bold text-emerald-700 underline hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
           >
-            PRECISE University of Pennsylvania
+            {config.affiliation.name}
           </a>
           <span class="mt-1 block">{config.email}</span>
         </p>
-        <p class="mb-4">
-          Machine learning researcher specializing in trustworthy AI, multimodal learning, and
-          uncertainty quantification for healthcare and robotics applications. Recently, I have
-          focused on building trustworthy and reliable systems based on generative AI. With a Ph.D.
-          in Electrical and Systems Engineering and over 30 publications, my work spans robust ECG
-          classification, AI for ophthalmology and oculomics, and clinical interaction analysis.
-        </p>
-        <p class="mb-4">
-          I am committed to advancing AI in medicine and health, actively mentoring students, and
-          contributing to the academic community and industry.
-        </p>
+        {config.bio.map((paragraph) => <p class="mb-4">{paragraph}</p>)}
       </div>
       <div class="mx-auto w-full max-w-70 shrink-0 sm:mx-0 sm:w-50">
         <img
           src="/profile.webp"
-          alt={config.first_name + " " + config.last_name + " profile picture"}
+          alt={fullName(config) + " profile picture"}
           width="100%"
           height="auto"
           class="rounded-sm"
