@@ -4,7 +4,8 @@ Kukjin Jang's personal website built with [Astro](https://astro.build/).
 
 ## Content
 
-Site content can be found in [`src/content/`](./src/content/).
+Site content can be found in [`src/content/`](./src/content/).\
+Public files can be found in [`public/`](./public/).
 
 ## Testing locally
 
