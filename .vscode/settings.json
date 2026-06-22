@@ -5,7 +5,7 @@
     "*.css": "tailwindcss"
   },
 
-  "[json][jsonc][yaml][markdown][javascript][astro][github-actions-workflow]": {
+  "[json][jsonc][yaml][markdown][javascript][typescript][astro][github-actions-workflow]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 

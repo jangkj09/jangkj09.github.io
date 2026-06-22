@@ -1,5 +1,6 @@
 ---
 import fs from "node:fs"
+import { getCollection, render } from "astro:content"
 import YAML from "yaml"
 import Layout from "../layouts/Layout.astro"
 
@@ -17,6 +18,23 @@ type Config = {
 }
 
 const config: Config = YAML.parse(fs.readFileSync("src/content/config.yaml", "utf-8"))
+
+const newsEntries = (await getCollection("news")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+)
+
+const newsItems = await Promise.all(
+  newsEntries.map(async (entry) => {
+    const { Content } = await render(entry)
+    return { entry, Content }
+  }),
+)
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "2-digit",
+  year: "numeric",
+})
 ---
 
 <Layout title={config.first_name + " " + config.last_name} description={config.description.trim()}>
@@ -63,51 +81,18 @@ const config: Config = YAML.parse(fs.readFileSync("src/content/config.yaml", "ut
   <section class="pb-4">
     <h2 class="mb-4 pt-0 text-2xl/8 font-extrabold text-gray-900 dark:text-gray-300">news</h2>
     <div class="flex flex-col gap-3">
-      <div class="flex flex-col gap-1 text-base/6 sm:flex-row sm:gap-4">
-        <span
-          class="min-w-30 text-sm font-semibold whitespace-nowrap text-gray-600 dark:text-gray-400"
-        >
-          Dec 09, 2024
-        </span>
-        <span class="text-gray-700 dark:text-gray-300">
-          Our paper, "Assessing Modality Bias in Video Question Answering Benchmarks with Multimodal
-          Large Language Models," has been accepted to AAAI 2025!
-        </span>
-      </div>
-      <div class="flex flex-col gap-1 text-base/6 sm:flex-row sm:gap-4">
-        <span
-          class="min-w-30 text-sm font-semibold whitespace-nowrap text-gray-600 dark:text-gray-400"
-        >
-          Nov 02, 2024
-        </span>
-        <span class="text-gray-700 dark:text-gray-300">
-          Our paper, "Fundus Image-based Visual Acuity Assessment with PAC-Guarantees," has been
-          accepted to ML4H
-        </span>
-      </div>
-      <div class="flex flex-col gap-1 text-base/6 sm:flex-row sm:gap-4">
-        <span
-          class="min-w-30 text-sm font-semibold whitespace-nowrap text-gray-600 dark:text-gray-400"
-        >
-          Oct 21, 2024
-        </span>
-        <span class="text-gray-700 dark:text-gray-300">
-          Our paper, "Credal Bayesian Deep Learning," has been accepted for publication in the
-          Transactions of Machine Learning Research
-        </span>
-      </div>
-      <div class="flex flex-col gap-1 text-base/6 sm:flex-row sm:gap-4">
-        <span
-          class="min-w-30 text-sm font-semibold whitespace-nowrap text-gray-600 dark:text-gray-400"
-        >
-          Jul 21, 2024
-        </span>
-        <span class="text-gray-700 dark:text-gray-300">
-          Paper accepted to APJO: "Development of Oculomics Artificial Intelligence for
-          Cardiovascular Risk Factors: A Case Study in Fundus Oculomics for HbA1c Assessment and
-          Clinically Relevant Considerations for Clinicians"
-        </span>
-      </div>
+      {
+        newsItems.map(({ entry, Content }) => (
+          <div class="flex flex-col gap-1 text-base/6 sm:flex-row sm:gap-4">
+            <span class="min-w-30 text-sm font-semibold whitespace-nowrap text-gray-600 dark:text-gray-400">
+              {dateFormatter.format(entry.data.date)}
+            </span>
+            <div class="text-gray-700 dark:text-gray-300 [&_p]:my-0">
+              <Content />
+            </div>
+          </div>
+        ))
+      }
     </div>
   </section>
 
