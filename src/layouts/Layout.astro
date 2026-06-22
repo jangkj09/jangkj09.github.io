@@ -1,6 +1,7 @@
 ---
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUpRightFromSquare, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"
+import { Font } from "astro:assets"
 import { ClientRouter } from "astro:transitions"
 import "../styles/global.css"
 
@@ -46,12 +47,7 @@ const navLinks = [
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <Font cssVariable="--font-inter" preload />
     <ClientRouter />
   </head>
   <body
