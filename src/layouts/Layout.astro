@@ -1,6 +1,7 @@
 ---
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUpRightFromSquare, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"
+import { ClientRouter } from "astro:transitions"
 import "../styles/global.css"
 
 interface Props {
@@ -51,6 +52,7 @@ const navLinks = [
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
   </head>
   <body
     class="mx-auto max-w-3xl bg-white text-lg/7 text-gray-700 dark:bg-gray-900 dark:text-gray-300"
@@ -111,7 +113,7 @@ const navLinks = [
       </button>
     </div>
 
-    <main id="content" class="leading-normal">
+    <main id="content" class="leading-normal" transition:animate="fade">
       <slot />
     </main>
 
