@@ -2,6 +2,10 @@
 
 Kukjin Jang's personal website built with [Astro](https://astro.build/).
 
+## Content
+
+Site content can be found in [`src/content/`](./src/content/).
+
 ## Testing locally
 
 1. Install vscode
