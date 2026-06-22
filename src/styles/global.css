@@ -5,3 +5,7 @@
 @theme inline {
   --font-sans: var(--font-inter);
 }
+
+html {
+  scrollbar-gutter: stable;
+}
