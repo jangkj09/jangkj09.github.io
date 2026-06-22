@@ -2,7 +2,9 @@
 import fs from "node:fs"
 import { getCollection, render } from "astro:content"
 import YAML from "yaml"
+import PublicationCard from "../components/PublicationCard.astro"
 import Layout from "../layouts/Layout.astro"
+import { getSelectedPapers } from "../lib/papers"
 
 type Config = {
   first_name: string
@@ -22,6 +24,8 @@ const config: Config = YAML.parse(fs.readFileSync("src/content/config.yaml", "ut
 const newsEntries = (await getCollection("news")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 )
+
+const selectedPapers = getSelectedPapers()
 
 const newsItems = await Promise.all(
   newsEntries.map(async (entry) => {
@@ -103,98 +107,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
       selected publications
     </h2>
     <div class="flex flex-col gap-6">
-      <article class="flex flex-col gap-1">
-        <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
-          Assessing Modality Bias in Video Question Answering Benchmarks with Multimodal Large
-          Language Models
-        </div>
-        <div class="text-base text-gray-600 dark:text-gray-400">
-          Jean Park,&nbsp;Kuk Jin Jang,&nbsp;Basam Alasaly, and 5 more authors
-        </div>
-        <div class="text-base text-gray-500 italic dark:text-gray-400">
-          <em>arXiv preprint arXiv:2408.12763</em>, 2024
-        </div>
-        <div class="mt-1">
-          <a
-            href="https://arxiv.org/abs/2408.12763"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mr-2 inline-block rounded-sm border border-emerald-700 px-3 py-1 text-sm font-semibold text-emerald-700 no-underline hover:bg-emerald-700 hover:text-white dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
-          >
-            arXiv
-          </a>
-        </div>
-      </article>
-
-      <article class="flex flex-col gap-1">
-        <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
-          DC4L: Distribution shift recovery via data-driven control for deep learning models
-        </div>
-        <div class="text-base text-gray-600 dark:text-gray-400">
-          Vivian Lin,&nbsp;Kuk Jin Jang,&nbsp;Souradeep Dutta, and 3 more authors
-        </div>
-        <div class="text-base text-gray-500 italic dark:text-gray-400">
-          <em>In 6th Annual Learning for Dynamics & Control Conference</em>, 2024
-        </div>
-        <div class="mt-1"></div>
-      </article>
-
-      <article class="flex flex-col gap-1">
-        <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
-          Development of Oculomics Artificial Intelligence for Cardiovascular Risk Factors: A Case
-          Study in Fundus Oculomics for HbA1c Assessment and Clinically Relevant Considerations for
-          Clinicians
-        </div>
-        <div class="text-base text-gray-600 dark:text-gray-400">
-          Joshua Ong,&nbsp;Kuk Jin Jang,&nbsp;Seung Ju Baek, and 8 more authors
-        </div>
-        <div class="text-base text-gray-500 italic dark:text-gray-400">
-          <em>Asia-Pacific Journal of Ophthalmology</em>, 2024
-        </div>
-        <div class="mt-1"></div>
-      </article>
-
-      <article class="flex flex-col gap-1">
-        <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
-          Credal Bayesian Deep Learning
-        </div>
-        <div class="text-base text-gray-600 dark:text-gray-400">
-          Michele Caprio,&nbsp;Souradeep Dutta,&nbsp;Kuk Jin Jang, and 4 more authors
-        </div>
-        <div class="text-base text-gray-500 italic dark:text-gray-400">
-          <em>arXiv e-prints</em>, 2024
-        </div>
-        <div class="mt-1">
-          <a
-            href="https://openreview.net/pdf?id=4NHF9AC5ui"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mr-2 inline-block rounded-sm border border-emerald-700 px-3 py-1 text-sm font-semibold text-emerald-700 no-underline hover:bg-emerald-700 hover:text-white dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
-          >
-            PDF
-          </a>
-        </div>
-      </article>
-
-      <article class="flex flex-col gap-1">
-        <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
-          Fundus Image-based Visual Acuity Assessment with PAC-Guarantees
-        </div>
-        <div class="text-base text-gray-600 dark:text-gray-400">
-          Sooyong Jang,&nbsp;Kuk Jin Jang,&nbsp;Hyonyoung Choi, and 4 more authors
-        </div>
-        <div class="text-base text-gray-500 italic dark:text-gray-400">2024</div>
-        <div class="mt-1">
-          <a
-            href="https://arxiv.org/abs/2412.06624"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mr-2 inline-block rounded-sm border border-emerald-700 px-3 py-1 text-sm font-semibold text-emerald-700 no-underline hover:bg-emerald-700 hover:text-white dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
-          >
-            arXiv
-          </a>
-        </div>
-      </article>
+      {selectedPapers.map((paper) => <PublicationCard paper={paper} compact />)}
     </div>
   </section>
 

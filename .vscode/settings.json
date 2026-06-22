@@ -9,5 +9,14 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  "cSpell.words": ["Jang", "Kukjin", "kukjinjang", "Stylesheet", "trivago"]
+  "cSpell.words": [
+    "bibtex",
+    "booktitle",
+    "inproceedings",
+    "Jang",
+    "Kukjin",
+    "kukjinjang",
+    "Stylesheet",
+    "trivago"
+  ]
 }

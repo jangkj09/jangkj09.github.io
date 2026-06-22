@@ -1,5 +1,39 @@
 ---
+import PublicationCard from "../components/PublicationCard.astro"
 import Layout from "../layouts/Layout.astro"
+import { getAllPapers } from "../lib/papers"
+
+const papers = getAllPapers()
+const papersByYear = new Map<number, typeof papers>()
+for (const paper of papers) {
+  const bucket = papersByYear.get(paper.year) ?? []
+  bucket.push(paper)
+  papersByYear.set(paper.year, bucket)
+}
+const years = [...papersByYear.keys()].sort((a, b) => b - a)
 ---
 
-<Layout title="Publications — Kuk Jin Jang" description="Publications by Kuk Jin Jang." />
+<Layout title="Publications — Kuk Jin Jang" description="Publications by Kuk Jin Jang.">
+  <section class="pb-8">
+    <h2 class="mb-6 pt-0 text-2xl/8 font-extrabold text-gray-900 dark:text-gray-300">
+      publications
+    </h2>
+    <div class="flex flex-col gap-10">
+      {
+        years.map((year, index) => (
+          <Fragment>
+            {index > 0 && <hr class="border-gray-200 dark:border-gray-800" />}
+            <section class="flex flex-col gap-4">
+              <h3 class="text-3xl font-bold text-gray-700 dark:text-gray-300">{year}</h3>
+              <div class="flex flex-col gap-6">
+                {papersByYear.get(year)?.map((paper) => (
+                  <PublicationCard paper={paper} />
+                ))}
+              </div>
+            </section>
+          </Fragment>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

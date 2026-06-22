@@ -1,0 +1,48 @@
+---
+import type { Paper } from "../lib/papers"
+import { formatAuthorsCompact, formatAuthorsFull } from "../lib/papers"
+
+interface Props {
+  paper: Paper
+  compact?: boolean
+}
+
+const { paper, compact = false } = Astro.props
+const authors = compact ? formatAuthorsCompact(paper.authors) : formatAuthorsFull(paper.authors)
+---
+
+<article class="flex flex-col gap-1">
+  <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
+    {paper.title}
+  </div>
+  <div class="text-base text-gray-600 dark:text-gray-400">
+    {authors}
+  </div>
+  <div class="text-base text-gray-500 italic dark:text-gray-400">
+    {
+      paper.venue ? (
+        <>
+          <em>{paper.venue}</em>, {paper.year}
+        </>
+      ) : (
+        <em>{paper.year}</em>
+      )
+    }
+  </div>
+  {
+    paper.links.length > 0 && (
+      <div class="mt-1">
+        {paper.links.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mr-2 inline-block rounded-xs border border-emerald-700 px-3 py-1 text-sm font-semibold text-emerald-700 no-underline hover:bg-emerald-700 hover:text-white dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</article>
