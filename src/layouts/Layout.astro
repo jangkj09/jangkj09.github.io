@@ -18,6 +18,9 @@ const config = getConfig()
 const name = fullName(config)
 const footerYear = new Date().getFullYear()
 const navLinks = config.nav_links
+
+const ogKey = pathname === "/" ? "index" : pathname.replace(/^\/+|\/+$/g, "")
+const ogImageURL = new URL(`/open-graph/${ogKey}.png`, Astro.url.origin).href
 ---
 
 <html lang="en" class="scroll-smooth">
@@ -29,6 +32,21 @@ const navLinks = config.nav_links
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={Astro.url.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={name} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
     <Font cssVariable="--font-inter" preload />
     <ClientRouter />
   </head>
