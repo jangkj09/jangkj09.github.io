@@ -96,15 +96,20 @@ const ogImageURL = new URL(`/open-graph/${ogKey}.png`, Astro.url.origin).href
         </div>
       </header>
       <button
-        class="size-6 cursor-pointer text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+        class="flex size-6 cursor-pointer text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
         aria-label="Toggle Theme"
         title="Toggle Theme"
-        onclick="toggleTheme()"
       >
-        <span class="theme-icon light" style="display:none">
+        <span
+          class="theme-icon light flex size-full items-center justify-center"
+          style="display:none"
+        >
           <FontAwesomeIcon icon={faSun} className="size-full" />
         </span>
-        <span class="theme-icon dark" style="display:block">
+        <span
+          class="theme-icon dark flex size-full items-center justify-center"
+          style="display:flex"
+        >
           <FontAwesomeIcon icon={faMoon} className="size-full" />
         </span>
       </button>
@@ -122,33 +127,73 @@ const ogImageURL = new URL(`/open-graph/${ogKey}.png`, Astro.url.origin).href
     </footer>
 
     <script is:inline>
-      ;(function () {
-        const saved = localStorage.getItem("theme")
-        const theme = saved || "light"
-        setTheme(theme)
-      })()
-
-      function setTheme(theme) {
-        const html = document.documentElement
-        const lightIcon = document.querySelector(".theme-icon.light")
-        const darkIcon = document.querySelector(".theme-icon.dark")
-        localStorage.setItem("theme", theme)
-        if (theme === "light") {
-          html.classList.remove("dark")
-          if (lightIcon) lightIcon.style.display = "none"
-          if (darkIcon) darkIcon.style.display = "block"
-        } else {
-          html.classList.add("dark")
-          if (darkIcon) darkIcon.style.display = "none"
-          if (lightIcon) lightIcon.style.display = "block"
+      ;(() => {
+        function setTheme(theme) {
+          const html = document.documentElement
+          const lightIcon = document.querySelector(".theme-icon.light")
+          const darkIcon = document.querySelector(".theme-icon.dark")
+          localStorage.setItem("theme", theme)
+          if (theme === "light") {
+            html.classList.remove("dark")
+            if (lightIcon) lightIcon.style.display = "none"
+            if (darkIcon) darkIcon.style.display = "flex"
+          } else {
+            html.classList.add("dark")
+            if (darkIcon) darkIcon.style.display = "none"
+            if (lightIcon) lightIcon.style.display = "flex"
+          }
         }
-      }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      function toggleTheme() {
-        const current = localStorage.getItem("theme") || "light"
-        setTheme(current === "light" ? "dark" : "light")
-      }
+        // Reveal the new theme as an expanding circle from the toggle button.
+        function revealTheme(newTheme, x, y) {
+          const endRadius = Math.hypot(
+            Math.max(x, window.innerWidth - x),
+            Math.max(y, window.innerHeight - y),
+          )
+          const html = document.documentElement
+          html.style.setProperty("--reveal-x", x + "px")
+          html.style.setProperty("--reveal-y", y + "px")
+          html.style.setProperty("--reveal-radius", endRadius + "px")
+          document.startViewTransition(() => setTheme(newTheme))
+        }
+
+        function toggleTheme(event) {
+          const current = localStorage.getItem("theme") || "light"
+          const newTheme = current === "light" ? "dark" : "light"
+
+          const button = event && event.currentTarget ? event.currentTarget : null
+          let x, y
+          if (button && typeof button.getBoundingClientRect === "function") {
+            const rect = button.getBoundingClientRect()
+            x = rect.left + rect.width / 2
+            y = rect.top + rect.height / 2
+          } else {
+            x = window.innerWidth / 2
+            y = window.innerHeight / 2
+          }
+
+          const supportsTransition =
+            "startViewTransition" in document &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+          if (supportsTransition) {
+            revealTheme(newTheme, x, y)
+          } else {
+            setTheme(newTheme)
+          }
+        }
+
+        // Runs on first load and after every Astro view-transition navigation,
+        // so the (possibly re-rendered) button always gets a fresh listener and
+        // the correct icon state is re-applied from the persisted theme.
+        function initTheme() {
+          setTheme(localStorage.getItem("theme") || "light")
+          const button = document.querySelector('[aria-label="Toggle Theme"]')
+          if (button) button.addEventListener("click", toggleTheme)
+        }
+
+        document.addEventListener("astro:page-load", initTheme)
+      })()
     </script>
   </body>
 </html>
