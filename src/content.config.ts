@@ -32,4 +32,8 @@ const news = defineCollection({
   }),
 })
 
-export const collections = { news }
+const bio = defineCollection({
+  loader: glob({ base: "./src/content", pattern: "bio.md" }),
+})
+
+export const collections = { news, bio }

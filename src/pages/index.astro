@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from "astro:content"
+import { getCollection, getEntry, render } from "astro:content"
 import { faGoogleScholar, faLinkedin, faResearchgate } from "@fortawesome/free-brands-svg-icons"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -9,6 +9,8 @@ import { getConfig, fullName } from "../lib/config"
 import { getSelectedPapers } from "../lib/papers"
 
 const config = getConfig()
+
+const { Content: Bio } = await render(await getEntry("bio", "bio")!)
 
 const newsEntries = (await getCollection("news")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -45,7 +47,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
           </a>
           <span class="mt-1 block">{config.email}</span>
         </p>
-        {config.bio.map((paragraph) => <p class="mb-4">{paragraph}</p>)}
+        <div class="[&_p]:mb-4">
+          <Bio />
+        </div>
       </div>
       <div class="mx-auto w-full max-w-70 shrink-0 sm:mx-0 sm:w-50">
         <img

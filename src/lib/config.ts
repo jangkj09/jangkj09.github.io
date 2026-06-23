@@ -26,7 +26,6 @@ export interface SiteConfig {
 
   nav_links: NavLink[]
   affiliation: Affiliation
-  bio: string[]
 }
 
 const CONFIG_PATH = "src/content/config.yaml"
