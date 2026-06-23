@@ -99,8 +99,8 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         /></a
       >
     </div>
-    <div class="flex flex-col gap-6">
-      {selectedPapers.map((paper) => <PublicationCard paper={paper} compact />)}
+    <div class="flex flex-col">
+      {selectedPapers.map((paper) => <PublicationCard paper={paper} />)}
     </div>
   </section>
 

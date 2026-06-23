@@ -1,43 +1,42 @@
 ---
 import type { Paper } from "../lib/papers"
-import { formatAuthorsCompact, formatAuthorsFull } from "../lib/papers"
+import { formatAuthors } from "../lib/papers"
 
 interface Props {
   paper: Paper
-  compact?: boolean
 }
 
-const { paper, compact = false } = Astro.props
-const authors = compact ? formatAuthorsCompact(paper.authors) : formatAuthorsFull(paper.authors)
+const { paper } = Astro.props
+const authors = formatAuthors(paper.authors)
 ---
 
-<article class="flex flex-col gap-1">
-  <div class="text-lg/6 font-bold text-gray-900 dark:text-gray-300">
+<article class="my-6 flex flex-col gap-2">
+  <div class="text-xl/6 font-bold text-gray-900 dark:text-gray-300">
     {paper.title}
   </div>
-  <div class="text-base text-gray-600 dark:text-gray-400">
+  <div class="text-base text-pretty text-gray-600 dark:text-gray-400">
     {authors}
   </div>
-  <div class="text-base text-gray-500 italic dark:text-gray-400">
+  <div class="text-base text-pretty text-gray-500">
     {
       paper.venue ? (
         <>
-          <em>{paper.venue}</em>, {paper.year}
+          <em>{paper.venue}</em>, <span class="tabular-nums">{paper.year}</span>
         </>
       ) : (
-        <em>{paper.year}</em>
+        <span class="tabular-nums">{paper.year}</span>
       )
     }
   </div>
   {
     paper.links.length > 0 && (
-      <div class="mt-1">
+      <div class="mt-2 flex flex-wrap gap-2">
         {paper.links.map((link) => (
           <a
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="mr-2 inline-block rounded-xs border border-emerald-700 px-3 py-1 text-sm font-semibold text-emerald-700 no-underline hover:bg-emerald-700 hover:text-white dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
+            class="inline-flex min-h-8 items-center rounded-md border border-emerald-700 px-3 text-sm font-semibold text-emerald-700 no-underline transition-[background-color,color,transform] duration-150 hover:bg-emerald-700 hover:text-white active:scale-[0.96] dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
           >
             {link.label}
           </a>

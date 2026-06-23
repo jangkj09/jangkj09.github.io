@@ -215,16 +215,7 @@ export function getSelectedPapers(): Paper[] {
   return loadPapers().filter((paper) => paper.selected)
 }
 
-export function formatAuthorsCompact(authors: AuthorName[]): string {
-  if (authors.length <= 3) return authors.map((a) => a.full).join(", ")
-  const remaining = authors.length - 3
-  return `${authors
-    .slice(0, 3)
-    .map((a) => a.full)
-    .join(", ")}, and ${remaining} more author${remaining === 1 ? "" : "s"}`
-}
-
-export function formatAuthorsFull(authors: AuthorName[]): string {
+export function formatAuthors(authors: AuthorName[]): string {
   if (authors.length === 0) return ""
   if (authors.length === 1) return authors[0].full
   const head = authors
