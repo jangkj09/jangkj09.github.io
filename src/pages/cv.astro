@@ -1,8 +1,0 @@
----
-import Layout from "../layouts/Layout.astro"
-import { getConfig, fullName } from "../lib/config"
-
-const name = fullName(getConfig())
----
-
-<Layout title={`CV — ${name}`} description={`Curriculum Vitae of ${name}.`} />

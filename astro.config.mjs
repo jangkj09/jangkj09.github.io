@@ -7,6 +7,9 @@ import emoji from "remark-emoji"
 // https://astro.build/config
 export default defineConfig({
   integrations: [react()],
+  redirects: {
+    "/cv": "/cv.pdf",
+  },
   markdown: {
     remarkPlugins: [emoji],
   },
