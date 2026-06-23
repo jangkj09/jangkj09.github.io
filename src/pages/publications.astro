@@ -23,7 +23,9 @@ const years = [...papersByYear.keys()].sort((a, b) => b - a)
           <Fragment>
             {index > 0 && <hr class="border-gray-200 dark:border-gray-800" />}
             <section class="flex flex-col gap-4">
-              <h3 class="text-3xl font-bold text-gray-700 dark:text-gray-300">{year}</h3>
+              <h3 class="sticky top-0 z-10 bg-white py-1 text-3xl font-bold text-gray-700 backdrop-blur-sm dark:bg-gray-900 dark:text-gray-300">
+                {year}
+              </h3>
               <div class="flex flex-col gap-6">
                 {papersByYear.get(year)?.map((paper) => (
                   <PublicationCard paper={paper} />
