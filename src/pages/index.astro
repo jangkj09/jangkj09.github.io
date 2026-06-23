@@ -1,7 +1,7 @@
 ---
 import { getCollection, getEntry, render } from "astro:content"
 import { faGoogleScholar, faLinkedin, faResearchgate } from "@fortawesome/free-brands-svg-icons"
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
+import { faArrowRight, faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import PublicationCard from "../components/PublicationCard.astro"
 import Layout from "../layouts/Layout.astro"
@@ -86,9 +86,19 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   <hr class="my-6 border-gray-200 dark:border-gray-700" />
 
   <section id="publications" class="pb-4">
-    <h2 class="mb-4 pt-0 text-2xl/8 font-extrabold text-gray-900 dark:text-gray-300">
-      selected publications
-    </h2>
+    <div class="mb-4 flex items-baseline justify-start gap-2">
+      <h2 class="pt-0 text-2xl/8 font-extrabold text-gray-900 dark:text-gray-300">
+        selected publications
+      </h2>
+      <a
+        href="/publications"
+        class="group text-sm font-medium text-emerald-700 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
+        >see more <FontAwesomeIcon
+          icon={faArrowRight}
+          className="ml-1 inline-block size-[1em] transition-[margin] duration-150 ease-out group-hover:ml-2"
+        /></a
+      >
+    </div>
     <div class="flex flex-col gap-6">
       {selectedPapers.map((paper) => <PublicationCard paper={paper} compact />)}
     </div>
