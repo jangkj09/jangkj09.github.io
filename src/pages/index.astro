@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntry, render } from "astro:content"
-import { faGoogleScholar, faLinkedin, faResearchgate } from "@fortawesome/free-brands-svg-icons"
-import { faArrowRight, faEnvelope } from "@fortawesome/free-solid-svg-icons"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Hr from "../components/hr.astro"
 import PublicationCard from "../components/PublicationCard.astro"
@@ -104,73 +103,4 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
       {selectedPapers.map((paper) => <PublicationCard paper={paper} />)}
     </div>
   </section>
-
-  <Hr />
-
-  <section class="pb-8 text-center">
-    <div class="mb-3 flex justify-center gap-6">
-      <a
-        href={"mailto:" + config.email}
-        title="email"
-        class="inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out hover:text-gray-900 active:scale-[0.96] dark:text-gray-400 dark:hover:text-gray-100"
-      >
-        <FontAwesomeIcon icon={faEnvelope} className="inline-block size-[1em]" />
-      </a>
-      <a
-        href={"https://scholar.google.com/citations?user=" + config.scholar_userid}
-        title="Google Scholar"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="brand-icon inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out [--brand-color:#4285F4] active:scale-[0.96] dark:text-gray-400"
-      >
-        <FontAwesomeIcon icon={faGoogleScholar} />
-      </a>
-      <a
-        href={"https://www.researchgate.net/profile/" + config.research_gate_profile + "/"}
-        title="ResearchGate"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="brand-icon inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out [--brand-color:#00CCBB] active:scale-[0.96] dark:text-gray-400"
-      >
-        <FontAwesomeIcon icon={faResearchgate} />
-      </a>
-      <a
-        href={"https://www.linkedin.com/in/" + config.linkedin_username}
-        title="LinkedIn"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="brand-icon inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out [--brand-color:#0A66C2] active:scale-[0.96] dark:text-gray-400"
-      >
-        <FontAwesomeIcon icon={faLinkedin} />
-      </a>
-    </div>
-    <div class="text-base text-gray-500 dark:text-gray-400">
-      {config.content_note.trim()}
-    </div>
-  </section>
 </Layout>
-
-<style>
-  /* Brand icons: monochrome via currentColor, brand color on hover */
-  .brand-icon :global(svg) {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    fill: currentColor;
-    transition-property: fill;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-  }
-
-  .brand-icon :global(svg *) {
-    fill: currentColor;
-    transition-property: fill;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-  }
-
-  .brand-icon:hover :global(svg),
-  .brand-icon:hover :global(svg *) {
-    fill: var(--brand-color);
-  }
-</style>
