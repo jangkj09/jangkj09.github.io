@@ -237,13 +237,3 @@ export function getAllPapers(): Paper[] {
 export function getSelectedPapers(): Paper[] {
   return loadPapers().filter((paper) => paper.selected)
 }
-
-export function formatAuthors(authors: AuthorName[]): string {
-  if (authors.length === 0) return ""
-  if (authors.length === 1) return authors[0].full
-  const head = authors
-    .slice(0, -1)
-    .map((a) => a.full)
-    .join(", ")
-  return `${head}, and ${authors[authors.length - 1].full}`
-}

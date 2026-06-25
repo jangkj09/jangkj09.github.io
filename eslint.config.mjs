@@ -27,7 +27,7 @@ const tailwindSettings = {
 
 const eslintConfig = defineConfig([
   {
-    ignores: ["src/lib/eslint-rules/**/*"],
+    ignores: ["src/lib/eslint-rules/**/*", "dist/**/*", ".astro/**/*"],
   },
   astro.configs["flat/recommended"],
   {

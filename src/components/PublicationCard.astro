@@ -4,14 +4,23 @@ import { faFilePdf, faLink } from "@fortawesome/free-solid-svg-icons"
 import { siArxiv, siPubmed } from "simple-icons"
 import { codeToHtml } from "shiki"
 import type { Paper } from "../lib/papers"
-import { formatAuthors } from "../lib/papers"
 
 interface Props {
   paper: Paper
 }
 
 const { paper } = Astro.props
-const authors = formatAuthors(paper.authors)
+const HIGHLIGHT_AUTHOR_RE =
+  /^(?:Jang, Kuk(?: Jin|-Jin)?|Jiang, Kuk Jin|Kuk(?:-Jin| Jin)? Jang|Kuk Jin Jiang)$/
+const highlightedAuthorParts = paper.authors.map((author) =>
+  HIGHLIGHT_AUTHOR_RE.test(author.full)
+    ? `<span class="font-semibold text-gray-900 dark:text-gray-300">${author.full}</span>`
+    : author.full,
+)
+const highlightedAuthors =
+  highlightedAuthorParts.length <= 1
+    ? (highlightedAuthorParts[0] ?? "")
+    : `${highlightedAuthorParts.slice(0, -1).join(", ")}, and ${highlightedAuthorParts.at(-1)}`
 const highlightedBib = paper.bib
   ? await codeToHtml(paper.bib, {
       lang: "bibtex",
@@ -25,7 +34,7 @@ const highlightedBib = paper.bib
     {paper.title}
   </div>
   <div class="text-base text-pretty text-gray-600 dark:text-gray-400">
-    {authors}
+    <Fragment set:html={highlightedAuthors} />
   </div>
   <div class="text-base text-pretty text-gray-500">
     {
