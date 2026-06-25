@@ -21,3 +21,7 @@
     clip-path: circle(var(--reveal-radius, 150%) at var(--reveal-x, 50%) var(--reveal-y, 50%));
   }
 }
+
+html.theme-toggling [data-astro-transition-scope] {
+  view-transition-name: none !important;
+}

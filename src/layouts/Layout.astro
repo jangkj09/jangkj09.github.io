@@ -238,7 +238,13 @@ const ogImageURL = new URL(`/open-graph/${ogKey}.png`, Astro.url.origin).href
           html.style.setProperty("--reveal-x", x + "px")
           html.style.setProperty("--reveal-y", y + "px")
           html.style.setProperty("--reveal-radius", endRadius + "px")
-          document.startViewTransition(() => setTheme(newTheme))
+          // Force the whole page into the root view-transition snapshot so the
+          // radial reveal includes content inside Astro's transition groups.
+          html.classList.add("theme-toggling")
+          const transition = document.startViewTransition(() => setTheme(newTheme))
+          transition.finished.finally(() => {
+            html.classList.remove("theme-toggling")
+          })
         }
 
         function toggleTheme(event) {
