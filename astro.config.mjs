@@ -16,7 +16,9 @@ export default defineConfig({
     "/cv": "/cv.pdf",
   },
   markdown: {
-    remarkPlugins: [emoji],
+    remarkPlugins: [
+      [emoji, { accessible: true }], // https://github.com/rhysd/remark-emoji
+    ],
   },
   fonts: [
     {
