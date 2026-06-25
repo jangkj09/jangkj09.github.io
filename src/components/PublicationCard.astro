@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFilePdf, faLink } from "@fortawesome/free-solid-svg-icons"
 import { siArxiv, siPubmed } from "simple-icons"
+import { codeToHtml } from "shiki"
 import type { Paper } from "../lib/papers"
 import { formatAuthors } from "../lib/papers"
 
@@ -11,6 +12,12 @@ interface Props {
 
 const { paper } = Astro.props
 const authors = formatAuthors(paper.authors)
+const highlightedBib = paper.bib
+  ? await codeToHtml(paper.bib, {
+      lang: "bibtex",
+      themes: { light: "github-light", dark: "github-dark" },
+    })
+  : ""
 ---
 
 <article class="my-6 flex flex-col gap-2">
@@ -31,49 +38,79 @@ const authors = formatAuthors(paper.authors)
       )
     }
   </div>
+  <div class="mt-2 flex flex-wrap gap-2">
+    {
+      paper.bib && (
+        <button
+          type="button"
+          data-bib-toggle={paper.id}
+          class="inline-flex min-h-8 cursor-pointer items-center gap-1.5 rounded-md border border-emerald-700 px-3 text-sm font-semibold text-emerald-700 transition-[background-color,color,transform] duration-150 hover:bg-emerald-700 hover:text-white active:scale-[0.96] dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
+        >
+          BIB
+        </button>
+      )
+    }
+    {
+      paper.links.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-8 items-center gap-1.5 rounded-md border border-emerald-700 px-3 text-sm font-semibold text-emerald-700 transition-[background-color,color,transform] duration-150 hover:bg-emerald-700 hover:text-white active:scale-[0.96] dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
+        >
+          {link.label === "arXiv" && (
+            <svg
+              class="size-4"
+              aria-hidden="true"
+              focusable="false"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d={siArxiv.path} />
+            </svg>
+          )}
+          {link.label === "PubMed" && (
+            <svg
+              class="size-4"
+              aria-hidden="true"
+              focusable="false"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d={siPubmed.path} />
+            </svg>
+          )}
+          {link.label === "PDF" && <FontAwesomeIcon icon={faFilePdf} className="size-4" />}
+          {link.label === "DOI" && <FontAwesomeIcon icon={faLink} className="size-4" />}
+          {link.label === "link" && <FontAwesomeIcon icon={faLink} className="size-4" />}
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
   {
-    paper.links.length > 0 && (
-      <div class="mt-2 flex flex-wrap gap-2">
-        {paper.links.map((link) => (
-          <a
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex min-h-8 items-center gap-1.5 rounded-md border border-emerald-700 px-3 text-sm font-semibold text-emerald-700 transition-[background-color,color,transform] duration-150 hover:bg-emerald-700 hover:text-white active:scale-[0.96] dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
-          >
-            {link.label === "arXiv" && (
-              <svg
-                class="size-4"
-                aria-hidden="true"
-                focusable="false"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d={siArxiv.path} />
-              </svg>
-            )}
-            {link.label === "PubMed" && (
-              <svg
-                class="size-4"
-                aria-hidden="true"
-                focusable="false"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d={siPubmed.path} />
-              </svg>
-            )}
-            {link.label === "PDF" && <FontAwesomeIcon icon={faFilePdf} className="size-4" />}
-            {link.label === "DOI" && <FontAwesomeIcon icon={faLink} className="size-4" />}
-            {link.label === "link" && <FontAwesomeIcon icon={faLink} className="size-4" />}
-            {link.label}
-          </a>
-        ))}
+    paper.bib && (
+      <div data-bib-content={paper.id} class="hidden">
+        <div class="overflow-x-auto rounded-md border border-gray-200 bg-white p-4 text-sm dark:border-gray-700 dark:bg-gray-900">
+          <Fragment set:html={highlightedBib} />
+        </div>
       </div>
     )
   }
 </article>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement
+    const toggle = target.closest("[data-bib-toggle]")
+    if (!toggle) return
+    const id = toggle.getAttribute("data-bib-toggle")
+    if (!id) return
+    const content = document.querySelector(`[data-bib-content="${id}"]`)
+    content?.classList.toggle("hidden")
+  })
+</script>

@@ -26,6 +26,7 @@ export interface Paper {
   publisher: string
   selected: boolean
   links: PaperLink[]
+  bib: string
 }
 
 const BIB_PATH = "src/content/papers.bib"
@@ -101,6 +102,27 @@ function deduplicateEntries(text: string): string {
   return parts.join("")
 }
 
+function extractRawEntry(text: string, key: string): string {
+  const normalizedKey = key.toLowerCase()
+  let cursor = 0
+
+  while (cursor < text.length) {
+    const at = text.indexOf("@", cursor)
+    if (at === -1) return ""
+    const braceOpen = text.indexOf("{", at)
+    if (braceOpen === -1) return ""
+    const braceClose = findMatchingBrace(text, braceOpen)
+    if (braceClose === -1) return ""
+    const inner = text.slice(braceOpen + 1, braceClose)
+    const delimiter = inner.search(/[,}]/)
+    const entryKey = (delimiter === -1 ? inner : inner.slice(0, delimiter)).trim().toLowerCase()
+    if (entryKey === normalizedKey) return text.slice(at, braceClose + 1).trim()
+    cursor = braceClose + 1
+  }
+
+  return ""
+}
+
 function preprocessBib(raw: string): string {
   let text = raw.replace(/^---[\s\S]*?\n---\s*/, "")
   text = text.replace(/#\s*\{([^{}]*)\}/g, '# "$1"')
@@ -173,7 +195,7 @@ function buildLinks(entry: BibEntry): PaperLink[] {
   return links
 }
 
-function entryToPaper(entry: BibEntry): Paper {
+function entryToPaper(entry: BibEntry, rawBib: string): Paper {
   const venue = field(entry, "journal") || field(entry, "booktitle") || field(entry, "note")
   const yearValue = entry.getFieldAsString("year")
   const year = yearValue !== undefined ? Number.parseInt(String(yearValue), 10) : 0
@@ -187,6 +209,7 @@ function entryToPaper(entry: BibEntry): Paper {
     publisher: field(entry, "publisher"),
     selected: isTruthyFlag(field(entry, "selected")),
     links: buildLinks(entry),
+    bib: extractRawEntry(rawBib, entry._id),
   }
 }
 
@@ -194,12 +217,12 @@ let cachedPapers: Paper[] | null = null
 
 function loadPapers(): Paper[] {
   if (cachedPapers) return cachedPapers
-  const raw = fs.readFileSync(BIB_PATH, "utf-8")
-  const bibFile = parseBibFile(preprocessBib(raw))
+  const rawBib = fs.readFileSync(BIB_PATH, "utf-8")
+  const bibFile = parseBibFile(preprocessBib(rawBib))
   const papers = bibFile.entries_raw.map((entry) => {
     const processed = bibFile.entries$[entry._id.toLowerCase()]
     if (!processed) return null
-    return entryToPaper(processed)
+    return entryToPaper(processed, rawBib)
   })
   cachedPapers = papers
     .filter((paper): paper is Paper => paper !== null)
