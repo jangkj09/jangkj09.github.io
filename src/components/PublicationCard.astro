@@ -1,4 +1,7 @@
 ---
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faFilePdf, faLink } from "@fortawesome/free-solid-svg-icons"
+import { siArxiv, siPubmed } from "simple-icons"
 import type { Paper } from "../lib/papers"
 import { formatAuthors } from "../lib/papers"
 
@@ -36,8 +39,37 @@ const authors = formatAuthors(paper.authors)
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex min-h-8 items-center rounded-md border border-emerald-700 px-3 text-sm font-semibold text-emerald-700 transition-[background-color,color,transform] duration-150 hover:bg-emerald-700 hover:text-white active:scale-[0.96] dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
+            class="inline-flex min-h-8 items-center gap-1.5 rounded-md border border-emerald-700 px-3 text-sm font-semibold text-emerald-700 transition-[background-color,color,transform] duration-150 hover:bg-emerald-700 hover:text-white active:scale-[0.96] dark:border-emerald-300 dark:text-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
           >
+            {link.label === "arXiv" && (
+              <svg
+                class="size-4"
+                aria-hidden="true"
+                focusable="false"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d={siArxiv.path} />
+              </svg>
+            )}
+            {link.label === "PubMed" && (
+              <svg
+                class="size-4"
+                aria-hidden="true"
+                focusable="false"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d={siPubmed.path} />
+              </svg>
+            )}
+            {link.label === "PDF" && <FontAwesomeIcon icon={faFilePdf} className="size-4" />}
+            {link.label === "DOI" && <FontAwesomeIcon icon={faLink} className="size-4" />}
+            {link.label === "link" && <FontAwesomeIcon icon={faLink} className="size-4" />}
             {link.label}
           </a>
         ))}
