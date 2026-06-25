@@ -3,6 +3,7 @@ import { getCollection, getEntry, render } from "astro:content"
 import { faGoogleScholar, faLinkedin, faResearchgate } from "@fortawesome/free-brands-svg-icons"
 import { faArrowRight, faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Hr from "../components/hr.astro"
 import PublicationCard from "../components/PublicationCard.astro"
 import Layout from "../layouts/Layout.astro"
 import { getConfig, fullName } from "../lib/config"
@@ -57,13 +58,13 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
           alt={fullName(config) + " profile picture"}
           width="100%"
           height="auto"
-          class="rounded-sm"
+          class="rounded-sm shadow-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
         />
       </div>
     </div>
   </section>
 
-  <hr class="my-6 border-gray-200 dark:border-gray-700" />
+  <Hr />
 
   <section class="pb-4">
     <h2 class="mb-4 pt-0 text-2xl/8 font-extrabold text-gray-900 dark:text-gray-300">news</h2>
@@ -83,19 +84,19 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
     </div>
   </section>
 
-  <hr class="my-6 border-gray-200 dark:border-gray-700" />
+  <Hr />
 
-  <section id="publications" class="pb-4">
+  <section class="pb-4">
     <div class="mb-4 flex items-baseline justify-start gap-2">
       <h2 class="pt-0 text-2xl/8 font-extrabold text-gray-900 dark:text-gray-300">
         selected publications
       </h2>
       <a
         href="/publications"
-        class="group text-sm font-medium text-emerald-700 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
+        class="group inline-flex min-h-10 items-center rounded-sm text-sm font-medium text-emerald-700 transition-[color,transform] duration-150 ease-out hover:text-emerald-600 active:scale-[0.96] dark:text-emerald-300 dark:hover:text-emerald-200"
         >see more <FontAwesomeIcon
           icon={faArrowRight}
-          className="ml-1 inline-block size-[1em] transition-[margin] duration-150 ease-out group-hover:ml-2"
+          className="ml-1 inline-block size-[1em] transition-transform duration-150 ease-out group-hover:translate-x-1"
         /></a
       >
     </div>
@@ -104,14 +105,14 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
     </div>
   </section>
 
-  <hr class="my-6 border-gray-200 dark:border-gray-700" />
+  <Hr />
 
   <section class="pb-8 text-center">
     <div class="mb-3 flex justify-center gap-6">
       <a
         href={"mailto:" + config.email}
         title="email"
-        class="text-2xl text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+        class="inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out hover:text-gray-900 active:scale-[0.96] dark:text-gray-400 dark:hover:text-gray-100"
       >
         <FontAwesomeIcon icon={faEnvelope} className="inline-block size-[1em]" />
       </a>
@@ -120,7 +121,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         title="Google Scholar"
         target="_blank"
         rel="noopener noreferrer"
-        class="brand-icon text-2xl text-gray-600 [--brand-color:#4285F4] dark:text-gray-400"
+        class="brand-icon inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out [--brand-color:#4285F4] active:scale-[0.96] dark:text-gray-400"
       >
         <FontAwesomeIcon icon={faGoogleScholar} />
       </a>
@@ -129,7 +130,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         title="ResearchGate"
         target="_blank"
         rel="noopener noreferrer"
-        class="brand-icon text-2xl text-gray-600 [--brand-color:#00CCBB] dark:text-gray-400"
+        class="brand-icon inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out [--brand-color:#00CCBB] active:scale-[0.96] dark:text-gray-400"
       >
         <FontAwesomeIcon icon={faResearchgate} />
       </a>
@@ -138,7 +139,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
         title="LinkedIn"
         target="_blank"
         rel="noopener noreferrer"
-        class="brand-icon text-2xl text-gray-600 [--brand-color:#0A66C2] dark:text-gray-400"
+        class="brand-icon inline-flex size-10 items-center justify-center rounded-sm text-2xl text-gray-600 transition-[color,transform] duration-150 ease-out [--brand-color:#0A66C2] active:scale-[0.96] dark:text-gray-400"
       >
         <FontAwesomeIcon icon={faLinkedin} />
       </a>
@@ -156,12 +157,16 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
     width: 1em;
     height: 1em;
     fill: currentColor;
-    transition: fill 0.15s ease-in-out;
+    transition-property: fill;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
   }
 
   .brand-icon :global(svg *) {
     fill: currentColor;
-    transition: fill 0.15s ease-in-out;
+    transition-property: fill;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
   }
 
   .brand-icon:hover :global(svg),

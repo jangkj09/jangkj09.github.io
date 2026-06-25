@@ -9,4 +9,5 @@
 
 html {
   scrollbar-gutter: stable;
+  text-rendering: optimizeLegibility;
 }

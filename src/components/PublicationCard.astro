@@ -24,10 +24,10 @@ const authors = formatAuthors(paper.authors)
     {
       paper.venue ? (
         <>
-          <em>{paper.venue}</em>, <span class="tabular-nums">{paper.year}</span>
+          <em>{paper.venue}</em>, <span>{paper.year}</span>
         </>
       ) : (
-        <span class="tabular-nums">{paper.year}</span>
+        <span>{paper.year}</span>
       )
     }
   </div>
