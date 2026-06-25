@@ -22,7 +22,7 @@ export interface SiteConfig {
   scholar_userid: string
 
   description: string
-  content_note: string
+  footer_message: string
 
   nav_links: NavLink[]
   affiliation: Affiliation
